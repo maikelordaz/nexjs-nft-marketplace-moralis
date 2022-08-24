@@ -70,9 +70,9 @@ Y puedo ver todo lo que puedo hacer el equivalente a conectarme al servidor seri
 
 Puedo crear un script para esto en mi package.json
 
-> "moralis:sync": "moralis-admin-cli connect-local-devchain --chain hardhat --moralisSubdomain lkei3yi1kglb.usemoralis.com --frpcPath ./frp/frpc"
+> "moralis:sync": "moralis-admin-cli connect-local-devchain --chain hardhat --moralisSubdomain (aqui voy a poner de mi server URL desde justo despues de https:// hasta el .com incluido) --frpcPath ./frp/frpc"
 
-Aqui me pediria mi API KEY y mi SECRET KEY
+Aqui me pediria mi API KEY y mi SECRET KEY los tomo de la pagina de Moralis en mi imagen de perfil
 
 Pero podria añadirlas a mi .env de la siguiente forma
 
@@ -88,5 +88,14 @@ Al final tendre cuatro terminales
 
 1. Para el frontend en el directorio de mi proyecto de front corriendo "yarn dev"
 2. Para el nodo en el directorio del backend corriendo "yarn hardhat node"
-3. Para la sincronizacion en la carpeta frp corriendo "./frpc.exe -c frpc.ini"
+3. Para la sincronizacion en la carpeta frp corriendo "./frpc.exe -c frpc.ini" o mi script
 4. Para cualquier otra cosa que necesite como correr scripts
+
+Cuando ya estoy conectado al servidor de moralis toca decirle de los eventos
+Una forma es por la interfaz grafica en la pagina. En el dashboard de mi app en el menu de
+la izquierda elijo "Syncs" y creo un nuevo evento y voy llenando los datos que me pide
+La otra forma es programarlo a traves de scripts. Esto lo haré en el archivo
+
+addEvents.js
+
+En la documentacion puedo ver ejemplos de como conectar con NodeJs
