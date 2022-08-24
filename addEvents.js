@@ -18,7 +18,7 @@ async function main() {
     await Moralis.start({ serverUrl, appId, masterKey })
     console.log(`Working with contract at: ${contractAddress}`)
     // Primero doy datos de cada evento
-    // Este es el evento itmListed de mi contrato
+    // Este es el evento itemListed de mi contrato
     let itemListedOptions = {
         chainId: moralisChainId,
         sync_historical: true,
