@@ -15,5 +15,37 @@ Moralis.Cloud.afterSave("ItemListed", async (request) => {
     // Los eventos ocurren dos veces, una vez sin confirmar y otra confirmado. Lo quiero confirmado
     const confirmed = request.object.get("confirmed")
     const logger = Moralis.Cloud.getLogger()
+    // logger.info() es como un console.log que veo en la pagina de mi servidor de Logs
     logger.info("Looking for confirmed TX...")
+    // Si confirmed existe entonces...
+    if (confirmed) {
+        logger.info("Found item!")
+        // Si Active Item existe, tomalo, si no, crealo
+        const ActiveItem = Moralis.Object.extend("ActiveItem")
+        /* Crea un nuevo elemento en ActiveItem
+         * Otra sintaxis seria:
+         * activeItem = new Moralis.Query(ActiveItem)
+         * */
+        const activeItem = new ActiveItem()
+        /*
+         * Puedo setear cualquier columna que quiera para esta nueva table. Lo hago:
+         * tableAsetear.set("nombreDeLaColumna", request.object.get("De donde viene")
+         * ejemplo:
+         * activeItem.set("marketplaceAddress", request.object.get("address"))
+         * Otra sintaxis seria:
+         * activeItem.equalTo("marketplaceAddress", request.object.get("address"))
+         */
+        activeItem.set("marketplaceAddress", request.object.get("address"))
+        activeItem.set("nftAddress", request.object.get("nftAddress"))
+        activeItem.set("price", request.object.get("price"))
+        activeItem.set("tokenId", request.object.get("tokenId"))
+        activeItem.set("seller", request.object.get("seller"))
+        logger.info(
+            `Adding Address: ${request.object.get("address")} TokenId: ${request.object.get(
+                "tokenId"
+            )}`
+        )
+        logger.info("Saving...")
+        await activeItem.save()
+    }
 })
