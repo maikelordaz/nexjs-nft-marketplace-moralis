@@ -1,10 +1,7 @@
 /*
  * Voy a crear una nueva table llamada "ActiveItem" a la que voy a añadir items cada vez que los
  * añada al marketplace. Esto es cada vez que ocurra el evento ItemListed. y lo voy a remover de
- * cada vez que sean cancelados
- */
-
-/*
+ * cada vez que sean cancelados.
  * No necesito importar esto ya que cada vez que lo añada a Moralis Cloud mi servidor el inyecta
  * Moralis
  * const { default: Moralis } = require("moralis/types")
@@ -47,5 +44,36 @@ Moralis.Cloud.afterSave("ItemListed", async (request) => {
         )
         logger.info("Saving...")
         await activeItem.save()
+    }
+})
+
+Moralis.Cloud.afterSave("ItemCanceled", async (request) => {
+    const confirmed = request.object.get("Confirmed")
+    const logger = Moralis.Cloud.getLogger()
+    logger.info(`Marketplace | Object ${request.object}`)
+    if (confirmed) {
+        const ActiveItem = Moralis.Object.extend("ActiveItem")
+        const query = new Moralis.Query(ActiveItem)
+        query.equalTo("marketplaceAddress", request.object.get("address"))
+        query.equalTo("nftAddress", request.object.get("nftAddress"))
+        query.equalTo("tokenId", request.object.get("tokenId"))
+        logger.info(`Marketplace | Query ${query}`)
+        const canceledItem = await query.first()
+        logger.info(`Marketplace | CanceledItem: ${canceledItem}`)
+        if (canceledItem) {
+            logger.info(`Deleting ${canceledItem.id}`)
+            await canceledItem.destroy()
+            logger.info(
+                `Deleted item with token id ${request.object.get(
+                    "tokenId"
+                )} at address ${request.object.get("address")} since it was canceled.`
+            )
+        } else {
+            logger.info(
+                `No item canceled with address ${request.object.get(
+                    "address"
+                )} and token id ${request.object.get("tekenId")} found`
+            )
+        }
     }
 })
