@@ -11,6 +11,7 @@
     "moralis:cloud": "moralis-admin-cli watch-cloud-folder --moralisSubdomain cjxdtkeapfri.usemoralis.com --autoSave 1 --moralisCloudfolder ./cloudFunctions"
   },
   "dependencies": {
+    "magic-sdk": "^9.0.0",
     "moralis": "^1.5.11",
     "next": "12.1.5",
     "react": "18.1.0",
@@ -19,13 +20,12 @@
     "web3uikit": "^0.0.133"
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
     "autoprefixer": "^10.4.5",
     "dotenv": "^16.0.0",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.5",
     "postcss": "^8.4.12",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.0.24"
   }
 }
-
