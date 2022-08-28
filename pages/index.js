@@ -30,5 +30,23 @@ export default function Home() {
     )
     console.log(listedNfts)
 
-    return <div className={styles.container}>Hi!</div>
+    return (
+        <div className={styles.container}>
+            {fetchingListedNfts ? (
+                <div>Loading...</div>
+            ) : (
+                listedNfts.map((nft) => {
+                    console.log(nft.attributes)
+                    const { price, nftAddress, tokenId, marketplaceAddress, seller } =
+                        nft.attributes
+                    return (
+                        <div>
+                            Price: {price}, NftAddress: {nftAddress}, TokenId: {tokenId},
+                            marketplaceAddress: {marketplaceAddress}, seller: {seller}
+                        </div>
+                    )
+                })
+            )}
+        </div>
+    )
 }
