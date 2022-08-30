@@ -2,6 +2,7 @@ import "../styles/globals.css"
 import { MoralisProvider } from "react-moralis"
 import Header from "../components/Header"
 import Head from "next/head"
+import { NotificationProvider } from "web3uikit"
 
 //Para detalles de como me conecto a los servidores de Moralis ver archivo "Moralis Servidores.MD"
 //Para detalles de como escuchar eventos ver archivo "Moralis Eventos.MD"
@@ -17,8 +18,10 @@ function MyApp({ Component, pageProps }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
-                <Header />
-                <Component {...pageProps} />
+                <NotificationProvider>
+                    <Header />
+                    <Component {...pageProps} />
+                </NotificationProvider>
             </MoralisProvider>
         </div>
     )
