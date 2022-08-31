@@ -141,6 +141,8 @@ async function main() {
     }
 }
 
+//node addEvents.js
+
 main()
     .then(() => process.exit(0))
     .catch((error) => {

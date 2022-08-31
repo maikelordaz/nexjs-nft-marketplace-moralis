@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
                 <meta name="description" content="NFT Marketplace" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <MoralisProvider initializeOnMount={false}>
+            <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
                 <NotificationProvider>
                     <Header />
                     <Component {...pageProps} />
