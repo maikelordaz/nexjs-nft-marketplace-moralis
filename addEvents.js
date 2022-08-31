@@ -3,12 +3,7 @@ require("dotenv").config()
 const contractAddresses = require("./constants/networkMapping.json")
 
 let chainId = process.env.chainId || 31337
-// Esto es porque si estoy en localhost moralis toma la chain ID como "1337" en vez de "31337"
 let moralisChainId = chainId == "31337" ? "1337" : chainId
-/*
-const contractAddressArray = contractAddresses[chainId]["NftMarketplace"]
-const contractAddress = contractAddressArray[contractAddressArray.length - 1]
-*/
 const contractAddress = contractAddresses[chainId]["NftMarketplace"][0]
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 const appId = process.env.NEXT_PUBLIC_APP_ID
@@ -17,8 +12,6 @@ const masterKey = process.env.masterKey
 async function main() {
     await Moralis.start({ serverUrl, appId, masterKey })
     console.log(`Working with contract at: ${contractAddress}`)
-    // Primero doy datos de cada evento
-    // Este es el evento itemListed de mi contrato
     let itemListedOptions = {
         chainId: moralisChainId,
         sync_historical: true,
@@ -138,9 +131,6 @@ async function main() {
         },
         tableName: "ItemCanceled",
     }
-
-    // Cuando ya tengo los datos de cada evento declaro variables para las respuestas de estos
-
     const listedResponse = await Moralis.Cloud.run("watchContractEvent", itemListedOptions, {
         useMasterKey: true,
     })
@@ -151,9 +141,6 @@ async function main() {
         useMasterKey: true,
     })
 
-    // Con las anteriores se hace llamada a la api y deberia ser exitosa.
-    // Para asegurarme de que paso hago el siguiente if-else
-
     if (listedResponse.success && boughtResponse.success && canceledResponse.success) {
         console.log(
             "--------------- Success! Database updated with watching events ---------------"
@@ -162,15 +149,6 @@ async function main() {
         console.log("--------------- Something went wrong... ---------------")
     }
 }
-
-/*
- * Para finalizar en el terminal corro el comando "node addEvents.js"
- * Si todo esta bien deberia darme el mensaje de Success
- * Si algo va mal me da el otro mensaje. Pero da error cuando un evento ya esta en mi dashboard
- * en Moralis entonces puedo ir a ver alla si todo esta bien
- * Al lograrlo quiere decir que la base de datos de Moralis esta escuchando al nodo local de mi
- * BlockChain
- */
 
 main()
     .then(() => process.exit(0))
