@@ -11,8 +11,8 @@ const truncateStr = (fullStr, strLen) => {
     if (fullStr.length <= strLen) return fullStr
 
     const separator = "..."
-    const separatorLength = separator.length
-    const charsToShow = strLen - separatorLength
+    const seperatorLength = separator.length
+    const charsToShow = strLen - seperatorLength
     const frontChars = Math.ceil(charsToShow / 2)
     const backChars = Math.floor(charsToShow / 2)
     return (
@@ -51,16 +51,15 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
 
     async function updateUI() {
         const tokenURI = await getTokenURI()
-        console.log(`The TokenURI is: ${tokenURI}`)
-
+        console.log(`The TokenURI is ${tokenURI}`)
         if (tokenURI) {
             const requestURL = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            const tokenURIresponse = await (await fetch(requestURL)).json()
-            const imageURI = tokenURIresponse.image
-            const imageURI_URL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-            setImageURI(imageURI_URL)
-            setTokenName(tokenURIresponse.name)
-            setTokenDescription(tokenURIresponse.description)
+            const tokenURIResponse = await (await fetch(requestURL)).json()
+            const imageURI = tokenURIResponse.image
+            const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+            setImageURI(imageURIURL)
+            setTokenName(tokenURIResponse.name)
+            setTokenDescription(tokenURIResponse.description)
         }
     }
 

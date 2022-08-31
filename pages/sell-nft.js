@@ -1,11 +1,11 @@
 import styles from "../styles/Home.module.css"
 import { Form, useNotification, Button } from "web3uikit"
+import { useMoralis, useWeb3Contract } from "react-moralis"
 import { ethers } from "ethers"
 import nftAbi from "../constants/BasicNft.json"
-import { useMoralis, useWeb3Contract } from "react-moralis"
-import networkMapping from "../constants/networkMapping.json"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
-import { useState, useEffect } from "react"
+import networkMapping from "../constants/networkMapping.json"
+import { useEffect, useState } from "react"
 
 export default function Home() {
     const { chainId, account, isWeb3Enabled } = useMoralis()
@@ -42,11 +42,11 @@ export default function Home() {
     }
 
     async function handleApproveSuccess(nftAddress, tokenId, price) {
-        console.log("Ok! Time to list your NFT...")
+        console.log("Ok! Now time to list")
         const listOptions = {
             abi: nftMarketplaceAbi,
             contractAddress: marketplaceAddress,
-            functionName: "listNft",
+            functionName: "listItem",
             params: {
                 nftAddress: nftAddress,
                 tokenId: tokenId,
@@ -57,9 +57,7 @@ export default function Home() {
         await runContractFunction({
             params: listOptions,
             onSuccess: handleListSuccess,
-            onError: (error) => {
-                console.log(error)
-            },
+            onError: (error) => console.log(error),
         })
     }
 
@@ -67,7 +65,7 @@ export default function Home() {
         await tx.wait(1)
         dispatch({
             type: "success",
-            message: "NF listing",
+            message: "NFT listing",
             title: "NFT listed",
             position: "topR",
         })
@@ -100,7 +98,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (isWeb3Enabled) {
+        if(isWeb3Enabled){
             setupUI()
         }
     }, [proceeds, account, isWeb3Enabled, chainId])
@@ -124,7 +122,7 @@ export default function Home() {
                         key: "tokenId",
                     },
                     {
-                        name: "Price (ETH)",
+                        name: "Price (in ETH)",
                         type: "number",
                         value: "",
                         key: "price",
@@ -134,7 +132,7 @@ export default function Home() {
                 id="Main Form"
             />
             <div>Withdraw {proceeds} proceeds</div>
-            {proceeds != 0 ? (
+            {proceeds != "0" ? (
                 <Button
                     onClick={() => {
                         runContractFunction({

@@ -7,19 +7,20 @@ import { ethers } from "ethers"
 export default function UpdateListingModal({
     nftAddress,
     tokenId,
-    marketplaceAddress,
     isVisible,
+    marketplaceAddress,
     onClose,
 }) {
     const dispatch = useNotification()
+
     const [priceToUpdateListingWith, setPriceToUpdateListingWith] = useState(0)
 
     const handleUpdateListingSuccess = async (tx) => {
         await tx.wait(1)
         dispatch({
             type: "success",
-            message: "Listing updated",
-            title: "Listing updated, please refresh",
+            message: "listing updated",
+            title: "Listing updated - please refresh (and move blocks)",
             position: "topR",
         })
         onClose && onClose()
@@ -52,7 +53,7 @@ export default function UpdateListingModal({
             }}
         >
             <Input
-                label="Update listing price in L1 currency (ETH)"
+                label="Update listing price in L1 Currency (ETH)"
                 name="New listing price"
                 type="number"
                 onChange={(event) => {
